@@ -1,4 +1,4 @@
-module tk
+module tcl
 
 #pkgconfig tk
 
