@@ -2,10 +2,10 @@ module tk
 
 pub struct C.Tcl_Interp {}
 
-pub fn tk_init(interp &C.Tcl_Interp) int {
+pub fn init(interp &C.Tcl_Interp) int {
 	return C.Tk_Init(interp)
 }
 
-pub fn tk_mainloop() {
+pub fn mainloop() {
 	C.Tk_MainLoop()
 }
