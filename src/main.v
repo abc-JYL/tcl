@@ -1,18 +1,21 @@
 module main
 
+import tcl
+import tk
+
 fn greet(client_data voidptr, interp &C.Tcl_Interp, objc int, objv &&C.Tcl_Obj) int {
 	println('Hello')
 	return C.TCL_OK
 }
 
 fn main() {
-	interp := C.Tcl_CreateInterp()
-	C.Tcl_Init(interp)
-	C.Tk_Init(interp)
-	C.Tcl_CreateObjCommand(interp, c'greet', greet, unsafe { nil }, unsafe { nil })
-	if C.Tcl_Eval(interp, c'wm title . hello; pack [button .h -text "Hello, World!" -command greet]') == C.TCL_ERROR {
-		panic(unsafe { cstring_to_vstring(C.Tcl_GetStringResult(interp)) })
+	interp := tcl.tcl_createinterp()
+	tcl.tcl_init(interp)
+	tk.tk_init(interp)
+	tcl.tcl_createobjcommand(interp, 'greet', greet, unsafe { nil }, unsafe { nil })
+	if tcl.tcl_eval(interp, 'wm title . hello; pack [button .h -text "Hello, World!" -command greet]') == C.TCL_ERROR {
+		panic(unsafe { tcl.tcl_getstringresult(interp) })
 	}
-	C.Tk_MainLoop()
-	C.Tcl_DeleteInterp(interp)
+	tk.tk_mainloop()
+	tcl.tcl_deleteinterp(interp)
 }
