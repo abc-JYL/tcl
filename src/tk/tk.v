@@ -1,6 +1,6 @@
 module tk
 
-pub struct C.Tcl_Interp {}
+import tcl
 
 pub fn tk_init(interp &C.Tcl_Interp) int {
 	return C.Tk_Init(interp)

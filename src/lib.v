@@ -1,5 +1,7 @@
 module tcl
 
+import tk
+
 pub fn tcl_createinterp() &C.Tcl_Interp {
 	return C.Tcl_CreateInterp()
 }
