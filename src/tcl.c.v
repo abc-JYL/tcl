@@ -6,8 +6,6 @@ module tcl
 
 pub struct C.Tcl_Interp {}
 
-pub struct C.Tcl_Obj {}
-
 fn C.Tcl_CreateInterp() &C.Tcl_Interp
 fn C.Tcl_Init(&C.Tcl_Interp) int
 fn C.Tcl_Eval(&C.Tcl_Interp, &char) int
