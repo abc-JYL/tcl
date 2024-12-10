@@ -1,5 +1,4 @@
 import tcl
-import tk
 
 fn main() {
 	script := [
@@ -21,10 +20,10 @@ fn main() {
 	]
 	interp := tcl.tcl_createinterp()
 	tcl.tcl_init(interp)
-	tk.tk_init(interp)
+	tcl.tk_init(interp)
 	if tcl.tcl_eval(interp, script.join('\n')) == C.TCL_ERROR {
 		panic(unsafe { tcl.tcl_getstringresult(interp) })
 	}
-	tk.tk_mainloop()
+	tcl.tk_mainloop()
 	tcl.tcl_deleteinterp(interp)
 }
