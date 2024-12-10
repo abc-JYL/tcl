@@ -23,3 +23,7 @@ pub fn deleteinterp(interp &C.Tcl_Interp) {
 pub fn createobjcommand(interp &C.Tcl_Interp, name string, function voidptr, clientdata voidptr, deleteproc voidptr) voidptr {
 	return C.Tcl_CreateObjCommand(interp, name.str, function, clientdata, deleteproc)
 }
+
+pub fn setvar(interp &C.Tcl_Interp, name string, new_val string) int {
+	return C.Tcl_SetVar(interp, name.str, new_val.str)
+}

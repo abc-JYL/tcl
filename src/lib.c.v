@@ -14,3 +14,4 @@ fn C.Tcl_Eval(&C.Tcl_Interp, &char) int
 fn C.Tcl_GetStringResult(&C.Tcl_Interp) &char
 fn C.Tcl_DeleteInterp(&C.Tcl_Interp)
 fn C.Tcl_CreateObjCommand(&C.Tcl_Interp, &char, voidptr, voidptr, voidptr) voidptr
+fn C.Tcl_SetVar(&C.Tcl_Interp, &char, &char, int) int
