@@ -1,4 +1,5 @@
 import tcl
+import tcl.tk
 
 fn main() {
 	script := [
@@ -18,12 +19,12 @@ fn main() {
 		'doodle       .c',
 		'bind .c <Double-3> {%W delete all}',
 	]
-	interp := tcl.tcl_createinterp()
-	tcl.tcl_init(interp)
-	tcl.tk_init(interp)
-	if tcl.tcl_eval(interp, script.join('\n')) == C.TCL_ERROR {
-		panic(unsafe { tcl.tcl_getstringresult(interp) })
+	interp := tcl.createinterp()
+	tcl.init(interp)
+	tk.init(interp)
+	if tcl.eval(interp, script.join('\n')) == C.TCL_ERROR {
+		panic(tcl.getstringresult(interp))
 	}
-	tcl.tk_mainloop()
-	tcl.tcl_deleteinterp(interp)
+	tk.mainloop()
+	tcl.deleteinterp(interp)
 }
