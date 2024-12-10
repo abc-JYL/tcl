@@ -1,7 +1,6 @@
 module tk
 
-#flag darwin -L/opt/X11/lib -I/opt/X11/include
-#flag -ltk
+#pkgconfig tk
 
 #include <tk.h>
 

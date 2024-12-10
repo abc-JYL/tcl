@@ -1,6 +1,6 @@
 module tcl
 
-#flag -ltcl
+#pkgconfig tcl
 #flag -Wno-error=incompatible-pointer-types
 #include <tcl.h>
 
