@@ -3,17 +3,28 @@ module main
 import tcl
 import tk
 
-fn greet(client_data voidptr, interp &C.Tcl_Interp, objc int, objv &&C.Tcl_Obj) int {
-	println('Hello')
-	return C.TCL_OK
-}
-
 fn main() {
+	script := [
+		'wm title . "Draw"',
+		'',
+		'proc doodle {w {color black}} {',
+		"   bind \$w <1>         [list doodle'start %W %x %y \$color]",
+		"   bind \$w <B1-Motion> {doodle'move %W %x %y}",
+		'}',
+		"proc doodle'start {w x y color} {",
+		'   set ::_id [\$w create line \$x \$y \$x \$y -fill \$color]',
+		'}',
+		"proc doodle'move {w x y} {",
+		'	\$w coords \$::_id [concat [\$w coords \$::_id] \$x \$y]',
+		'}',
+		'pack [canvas .c -bg white] -fill both -expand 1',
+		'doodle       .c',
+		'bind .c <Double-3> {%W delete all}',
+	]
 	interp := tcl.tcl_createinterp()
 	tcl.tcl_init(interp)
 	tk.tk_init(interp)
-	tcl.tcl_createobjcommand(interp, 'greet', greet, unsafe { nil }, unsafe { nil })
-	if tcl.tcl_eval(interp, 'wm title . hello; pack [button .h -text "Hello, World!" -command greet]') == C.TCL_ERROR {
+	if tcl.tcl_eval(interp, script.join('\n')) == C.TCL_ERROR {
 		panic(unsafe { tcl.tcl_getstringresult(interp) })
 	}
 	tk.tk_mainloop()
