@@ -13,9 +13,9 @@ fn open(client_data voidptr, interp &C.Tcl_Interp, objc int, objv &&C.Tcl_Obj) i
 
 fn save(client_data voidptr, interp &C.Tcl_Interp, objc int, objv &&C.Tcl_Obj) int {
 	tcl.eval(interp, '.t get 1.0 {end -1c}')
-	data := tcl.getstringresult(interp)
+	data := tcl.get_string_result(interp)
 	tcl.eval(interp, 'tk_getSaveFile -initialdir .')
-	path := tcl.getstringresult(interp)
+	path := tcl.get_string_result(interp)
 	os.write_file(path, data) or { panic('Failed to save file!') }
 	return C.TCL_OK
 }
@@ -43,7 +43,7 @@ fn main() {
 
 		. configure -menu .menuBar
 	')
-	interp := tcl.createinterp()
+	interp := tcl.create_interp()
 	tcl.init(interp)
 	tk.init(interp)
 	tcl.create_obj_command(interp, 'save', save, unsafe { nil }, unsafe { nil })
