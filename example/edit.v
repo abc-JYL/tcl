@@ -4,7 +4,7 @@ import os
 
 fn open(client_data voidptr, interp &C.Tcl_Interp, objc int, objv &&C.Tcl_Obj) int {
 	tcl.eval(interp, 'tk_getOpenFile -initialdir .')
-	tcl.set_var(interp, 'data', os.read_file(tcl.getstringresult(interp)) or {
+	tcl.set_var(interp, 'data', os.read_file(tcl.get_string_result(interp)) or {
 		panic('Failed to open file! $')
 	}, C.TCL_GLOBAL_ONLY)
 	tcl.eval(interp, '.t delete 0.0 end\n.t insert end \$data')
