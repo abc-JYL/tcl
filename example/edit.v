@@ -2,15 +2,9 @@ import tcl
 import tcl.tk
 import os
 
-fn C.Tcl_SetVar(&C.Tcl_Interp, &char, &char, int) &char
-
-pub fn setvar(interp &C.Tcl_Interp, name string, new_val string, flag int) string {
-	return unsafe { cstring_to_vstring(C.Tcl_SetVar(interp, name.str, new_val.str, flag)) }
-}
-
 fn open(client_data voidptr, interp &C.Tcl_Interp, objc int, objv &&C.Tcl_Obj) int {
 	tcl.eval(interp, 'tk_getOpenFile -initialdir .')
-	setvar(interp, 'data', os.read_file(tcl.getstringresult(interp)) or {
+	tcl.set_var(interp, 'data', os.read_file(tcl.getstringresult(interp)) or {
 		panic('Failed to open file! $')
 	}, C.TCL_GLOBAL_ONLY)
 	tcl.eval(interp, '.t delete 0.0 end\n.t insert end \$data')
@@ -52,11 +46,11 @@ fn main() {
 	interp := tcl.createinterp()
 	tcl.init(interp)
 	tk.init(interp)
-	tcl.createobjcommand(interp, 'save', save, unsafe { nil }, unsafe { nil })
-	tcl.createobjcommand(interp, 'open', open, unsafe { nil }, unsafe { nil })
+	tcl.create_obj_command(interp, 'save', save, unsafe { nil }, unsafe { nil })
+	tcl.create_obj_command(interp, 'open', open, unsafe { nil }, unsafe { nil })
 	if tcl.eval(interp, script) == C.TCL_ERROR {
-		panic(tcl.getstringresult(interp))
+		panic(tcl.get_string_result(interp))
 	}
-	tk.mainloop()
-	tcl.deleteinterp(interp)
+	tk.main_loop()
+	tcl.delete_interp(interp)
 }

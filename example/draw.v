@@ -19,12 +19,12 @@ fn main() {
 		'doodle       .c',
 		'bind .c <Double-3> {%W delete all}',
 	]
-	interp := tcl.createinterp()
+	interp := tcl.create_interp()
 	tcl.init(interp)
 	tk.init(interp)
 	if tcl.eval(interp, script.join('\n')) == C.TCL_ERROR {
-		panic(tcl.getstringresult(interp))
+		panic(tcl.get_string_result(interp))
 	}
-	tk.mainloop()
-	tcl.deleteinterp(interp)
+	tk.main_loop()
+	tcl.delete_interp(interp)
 }

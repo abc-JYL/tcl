@@ -1,11 +1,10 @@
 import tcl
 import tcl.tk
-
 import time
 
 fn update_time(client_data voidptr, interp &C.Tcl_Interp, objc int, objv &&C.Tcl_Obj) int {
 	t := time.now()
-	tcl.eval(interp, '.label configure -text "$t"\nafter 500 update_time')
+	tcl.eval(interp, '.label configure -text "${t}"\nafter 500 update_time')
 	return C.TCL_OK
 }
 
@@ -16,13 +15,13 @@ fn main() {
 		pack .label
 		update_time
 	')
-	interp := tcl.createinterp()
+	interp := tcl.create_interp()
 	tcl.init(interp)
 	tk.init(interp)
-	tcl.createobjcommand(interp, "update_time", update_time, unsafe { nil }, unsafe { nil })
+	tcl.create_obj_command(interp, 'update_time', update_time, unsafe { nil }, unsafe { nil })
 	if tcl.eval(interp, script) == C.TCL_ERROR {
-		panic(tcl.getstringresult(interp))
+		panic(tcl.get_string_result(interp))
 	}
-	tk.mainloop()
-	tcl.deleteinterp(interp)
+	tk.main_loop()
+	tcl.delete_interp(interp)
 }
