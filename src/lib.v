@@ -27,3 +27,11 @@ pub fn create_obj_command(interp &C.Tcl_Interp, name string, function voidptr, c
 pub fn set_var(interp &C.Tcl_Interp, name string, new_val string, flag int) string {
 	return unsafe { cstring_to_vstring(C.Tcl_SetVar(interp, name.str, new_val.str, flag)) }
 }
+
+pub fn new_string_obj(s string, length int) &C.Tcl_Obj {
+	return C.Tcl_NewStringObj(s.str, length)
+}
+
+pub fn set_obj_result(interp &C.Tcl_Interp, obj &C.Tcl_Obj) {
+	C.Tcl_SetObjResult(interp, obj)
+}
